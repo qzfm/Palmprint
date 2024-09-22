@@ -116,7 +116,7 @@ thresh = interp1d(fpr, thresholds)(eer)
 # -----------------------------------------------
 # 要计算的 FAR 值
 # target_fars = [1e-3, 1e-4, 1e-5, 1e-6]
-target_fars = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3]
+target_fars = [1e-8, 1e-7, 1e-6, 1e-5]
 # 1 - 遍历法 寻找最接近的那个far
 def find_closest_tar(target_fars, fpr, tpr):
 
@@ -141,13 +141,33 @@ tar_at_far = find_closest_tar(target_fars, fpr, tpr)
 # 2-插值法 近似计算对应的 FAR 下的 TPR
 # tar_at_far = np.interp(target_fars, fpr, tpr)
 
+# 分数计算
+score1 = 0
+score2 = 0
+
 # 输出对应的 TAR 值
 for far, tar in zip(target_fars, tar_at_far):
+    if far == 1e-8:
+        score2 += 0.9 * tar
+    elif far == 1e-7:
+        score1 += 0.9 * tar
+        score2 += 0.09 * tar
+    elif far == 1e-6:
+        score1 += 0.09 * tar
+        score2 += 0.009* tar
+    elif far == 1e-5:
+        score1 += 0.01 * tar
+        score2 += 0.001 * tar
     print(f"At FAR={far}, TAR={tar}")
+
+print('score_复赛=', score1)
+print('score_决赛=', score2)
 
 with open(os.path.join(pathOut, 'tar_at_far.txt'), 'w') as f:
     for far, tar in zip(target_fars, tar_at_far):
         f.writelines(f"FAR={far}, TAR={tar}\n")
+    f.writelines(f"score_复赛={score1}\n")
+    f.writelines(f"score_决赛={score2}\n")
 # -----------------------------------------------
 # -----------------------------------------------
 
