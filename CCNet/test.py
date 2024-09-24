@@ -27,7 +27,7 @@ import copy
 # b 去匹配 a
 # b 去匹配 b
 
-def test(model):
+def test(model, batch_size):
 
     print('Start Testing!')
     print('%s' % (time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())))
@@ -40,7 +40,7 @@ def test(model):
     trainset = MyDataset(txt=train_set_file, transforms=None, train=False)
     testset = MyDataset(txt=test_set_file, transforms=None, train=False)
 
-    batch_size = 512  # 128
+    batch_size = batch_size  # 128
 
     data_loader_train = DataLoader(dataset=trainset, batch_size=batch_size, num_workers=2)
     data_loader_test = DataLoader(dataset=testset, batch_size=batch_size, num_workers=2)
@@ -330,6 +330,6 @@ if __name__== "__main__" :
 
     print('------------\n')
     # print('Best')
-    test(best_net)
+    test(best_net, batch_size)
 
 # python test.py --id_num 600 --train_set_file data/train_Tongji_from_tongji.txt --test_set_file data/test_Tongji_from_tongji.txt

@@ -149,6 +149,7 @@ class MyDataset(data.Dataset):
 
         data = [data,data2]
         # print(data)
+        data = [item[:, :128, :128] for item in data]
         # print(label)
         return data, int(label)#, img_path
     
