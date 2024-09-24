@@ -20,7 +20,7 @@ from models.ccnet import ccnet
 from utils import *
 import numpy as np
 import copy
-
+from tqdm import tqdm
 # python test.py --id_num 600 --train_set_file data/train_Tongji.txt --test_set_file data/test_Tongji.txt 
 
 # 输入两个数据集a b
@@ -135,7 +135,7 @@ def test(model, batch_size):
     ntest = featDB_test.shape[0]
     ntrain = featDB_train.shape[0]
 
-    for i in range(ntest):
+    for i in tqdm(range(ntest), 'dataset B matches dataset A'):
         # 给定一张test的图片，计算特征向量
         feat1 = featDB_test[i]
 
@@ -230,7 +230,7 @@ def test(model, batch_size):
     s = []  # matching score
     l = []  # genuine / impostor matching
     n = featDB_test.shape[0]
-    for i in range(n - 1):
+    for i in tqdm(range(n - 1), 'dataset B matches dataset B'):
         feat1 = featDB_test[i]
 
         for jj in range(n - i - 1):
