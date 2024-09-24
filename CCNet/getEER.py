@@ -133,7 +133,8 @@ def find_closest_tar(target_fars, fpr, tpr):
                 break
 
         tars.append(tpr[index_far - 1])
-        index_far += 1
+        if index_far < len(fpr):
+            index_far += 1
 
     return tars
 tar_at_far = find_closest_tar(target_fars, fpr, tpr)
